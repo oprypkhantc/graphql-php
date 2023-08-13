@@ -136,8 +136,8 @@ class StandardServer
      */
     public function processPsrRequest(
         RequestInterface $request,
-        ResponseInterface $response,
-        StreamInterface $writableBodyStream
+        ResponseInterface $response = null,
+        StreamInterface $writableBodyStream = null
     ) {
         $result = $this->executePsrRequest($request);
 

@@ -1,0 +1,25 @@
+services:
+  server:
+    image: php:8.1-cli
+    command: "php -S 0.0.0.0:80 -t /app/tests/HttpSpec"
+    working_dir: /app/tests/HttpSpec
+    volumes:
+      - app:/app
+
+  node:
+    image: node:18-alpine
+    restart: "no"
+    command: /bin/true
+    working_dir: /app/tests/HttpSpec
+    depends_on:
+      - server
+    volumes:
+      - app:/app
+
+volumes:
+  app:
+    driver: local
+    driver_opts:
+      type: none
+      device: "${PWD}/../.."
+      o: bind

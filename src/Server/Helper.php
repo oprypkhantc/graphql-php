@@ -15,6 +15,8 @@ use GraphQL\Language\AST\DocumentNode;
 use GraphQL\Language\Parser;
 use GraphQL\Utils\AST;
 use GraphQL\Utils\Utils;
+use Nyholm\Psr7\Response;
+use Nyholm\Psr7\Stream;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -528,7 +530,7 @@ class Helper
      *
      * @api
      */
-    public function toPsrResponse($result, ResponseInterface $response, StreamInterface $writableBodyStream)
+    public function toPsrResponse($result, ResponseInterface $response = null, StreamInterface $writableBodyStream = null)
     {
         if ($result instanceof Promise) {
             return $result->then(
@@ -546,8 +548,11 @@ class Helper
      * @throws \JsonException
      * @throws \RuntimeException
      */
-    protected function doConvertToPsrResponse($result, ResponseInterface $response, StreamInterface $writableBodyStream): ResponseInterface
+    protected function doConvertToPsrResponse($result, ResponseInterface $response = null, StreamInterface $writableBodyStream = null): ResponseInterface
     {
+		$response ??= new Response();
+		$writableBodyStream ??= Stream::create();
+
         $writableBodyStream->write(\json_encode($result, JSON_THROW_ON_ERROR));
 
         return $response

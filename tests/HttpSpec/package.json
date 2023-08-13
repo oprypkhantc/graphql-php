@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@jest/globals": "^29.6.2",
+    "graphql": "^16.7.1",
+    "graphql-http": "^1.21.0",
+    "jest": "^29.6.2",
+    "node-fetch": "^2.6.12"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
