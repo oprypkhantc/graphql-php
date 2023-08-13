@@ -24,6 +24,8 @@ use Psr\Http\Message\StreamInterface;
 
 /**
  * Contains functionality that could be re-used by various server implementations.
+ *
+ * @see \GraphQL\Tests\Server\HelperTest
  */
 class Helper
 {
@@ -48,7 +50,7 @@ class Helper
      *
      * @api
      */
-    public function parseHttpRequest(?callable $readRawBodyFn = null)
+    public function parseHttpRequest(callable $readRawBodyFn = null)
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? null;
         $bodyParams = [];
@@ -257,7 +259,7 @@ class Helper
                 );
             }
 
-            $doc = $op->queryId !== null && $op->query === null
+            $doc = $op->queryId !== null
                 ? $this->loadPersistedQuery($config, $op)
                 : $op->query;
 

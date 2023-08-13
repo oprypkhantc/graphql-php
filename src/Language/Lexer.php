@@ -15,6 +15,8 @@ use GraphQL\Utils\Utils;
  * Algorithm is O(N) both on memory and time.
  *
  * @phpstan-import-type ParserOptions from Parser
+ *
+ * @see \GraphQL\Tests\Language\LexerTest
  */
 class Lexer
 {
@@ -713,7 +715,7 @@ class Lexer
      *
      * @return array{string, int|null, int}
      */
-    private function readChar(bool $advance = false, ?int $byteStreamPosition = null): array
+    private function readChar(bool $advance = false, int $byteStreamPosition = null): array
     {
         if ($byteStreamPosition === null) {
             $byteStreamPosition = $this->byteStreamPosition;
