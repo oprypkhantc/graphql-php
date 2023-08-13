@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -7,36 +7,32 @@ use GraphQL\Server\StandardServer;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
-use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
-use Laminas\Stratigility\Handler\NotFoundHandler;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
-use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
 $config = ServerConfig::create([
-	'schema' => new Schema([
-		'query' => new ObjectType([
-			'name' => 'Query',
-			'fields' => [
-				'x' => [
-					'type' => Type::id(),
-				],
-			]
-		]),
-	]),
+    'schema' => new Schema([
+        'query' => new ObjectType([
+            'name' => 'Query',
+            'fields' => [
+                'x' => [
+                    'type' => Type::id(),
+                ],
+            ],
+        ]),
+    ]),
 ]);
 $server = new StandardServer($config);
 
 $app = new MiddlewarePipe();
 $app->pipe(new CallableMiddlewareDecorator(function (ServerRequestInterface $request) use ($server): ResponseInterface {
-	return $server->processPsrRequest($request);
+    return $server->processPsrRequest($request);
 }));
 
 $errorResponseGenerator = static function (Throwable $e) {
@@ -45,6 +41,7 @@ $errorResponseGenerator = static function (Throwable $e) {
         'An error occurred: %s',
         $e->getMessage()
     ));
+
     return $response;
 };
 $emitter = new SapiEmitter();

@@ -552,8 +552,8 @@ class Helper
      */
     protected function doConvertToPsrResponse($result, ResponseInterface $response = null, StreamInterface $writableBodyStream = null): ResponseInterface
     {
-		$response ??= new Response();
-		$writableBodyStream ??= Stream::create();
+        $response ??= new Response();
+        $writableBodyStream ??= Stream::create();
 
         $writableBodyStream->write(\json_encode($result, JSON_THROW_ON_ERROR));
 
